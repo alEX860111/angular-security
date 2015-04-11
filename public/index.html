@@ -1,0 +1,20 @@
+<html ng-app="myapp">
+
+<head>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/app.js"></script>
+  <base href="/app" />
+</head>
+
+<body>
+  <div ng-include="'app/views/navbar.html'"></div>
+  <div ng-view class="container"></div>
+</body>
+
+</html>
