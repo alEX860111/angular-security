@@ -1,30 +1,30 @@
 module.exports = function(config) {
 	config.set({
 
-		basePath: '../',
+		basePath: "../",
 
 		files: [
-			'app/bower_components/angular/angular.min.js',
-			'app/bower_components/angular-mocks/angular-mocks.js',
-			'app/js/**/*.js',
-			'test/unit/**/*.js'
+			"app/bower_components/angular/angular.min.js",
+			"app/bower_components/angular-mocks/angular-mocks.js",
+			"app/js/**/*.js",
+			"test/unit/**/*.js"
 		],
 
 		autoWatch: true,
 
-		frameworks: ['jasmine'],
+		frameworks: ["jasmine"],
 
-		browsers: ['Chrome'],
+		browsers: ["Chrome"],
 
 		plugins: [
-			'karma-chrome-launcher',
-			'karma-firefox-launcher',
-			'karma-jasmine'
+			"karma-chrome-launcher",
+			"karma-firefox-launcher",
+			"karma-jasmine"
 		],
 
 		junitReporter: {
-			outputFile: 'test_out/unit.xml',
-			suite: 'unit'
+			outputFile: "test_out/unit.xml",
+			suite: "unit"
 		}
 
 	});

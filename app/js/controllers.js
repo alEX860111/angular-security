@@ -6,7 +6,7 @@ angular.module("controllers", [])
 	};
 	$scope.logout = function() {
 		delete $window.sessionStorage.token;
-		$location.path("login");
+		$location.path("/login");
 	};
 	$scope.goto = function(path) {
 		$location.path(path);
@@ -27,18 +27,18 @@ angular.module("controllers", [])
 		username: "",
 		password: ""
 	};
-	$scope.message = "";
+	$scope.errorMessage = "";
 
 	$scope.submit = function() {
 		$http
 			.post("/rest-api/token", $scope.user)
 			.success(function(data, status, headers, config) {
 				$window.sessionStorage.token = data.token;
-				$location.path(angular.isDefined($rootScope.nextPath) ? $rootScope.nextPath : "home");
+				$location.path(angular.isDefined($rootScope.nextPath) ? $rootScope.nextPath : "/home");
 			})
 			.error(function(data, status, headers, config) {
 				delete $window.sessionStorage.token;
-				$scope.message = data.message;
+				$scope.errorMessage = data.message;
 				$scope.user.username = "";
 				$scope.user.password = "";
 			});
