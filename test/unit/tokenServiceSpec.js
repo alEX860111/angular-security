@@ -1,6 +1,9 @@
 describe("tokenService", function() {
 
-	var payload = "payload";
+	var payload = {
+		sub: "subj",
+		role: "USER"
+	};
 
 	var jwtHelper;
 
@@ -30,12 +33,14 @@ describe("tokenService", function() {
 		tokenService.store(token);
 		expect(jwtHelper.decodeToken).toHaveBeenCalledWith(token);
 		expect($window.sessionStorage.token).toEqual(token);
-		expect($window.sessionStorage.tokenPayload).toEqual(payload);
+		expect($window.sessionStorage.username).toEqual(payload.sub);
+		expect($window.sessionStorage.role).toEqual(payload.role);
 		expect(tokenService.getToken()).toEqual(token);
-		expect(tokenService.getTokenPayload()).toEqual(payload);
+		expect(tokenService.getUsername()).toEqual(payload.sub);
 		tokenService.delete();
 		expect($window.sessionStorage.token).toBeUndefined();
-		expect($window.sessionStorage.tokenPayload).toBeUndefined();
+		expect($window.sessionStorage.username).toBeUndefined();
+		expect($window.sessionStorage.role).toBeUndefined();
 	});
 
 });

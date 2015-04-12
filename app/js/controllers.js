@@ -15,6 +15,7 @@ angular.module("controllers", ["angular-jwt"])
 		return tokenService.getToken();
 	}, function() {
 		$scope.userIsLoggedIn = tokenService.getToken() ? true : false;
+		$scope.username = tokenService.getUsername();
 	});
 }])
 
@@ -25,18 +26,22 @@ angular.module("controllers", ["angular-jwt"])
 .factory("tokenService", ["$window", "jwtHelper", function($window, jwtHelper) {
 	return {
 		store: function(token) {
+			var payload;
 			$window.sessionStorage.token = token;
-			$window.sessionStorage.tokenPayload = jwtHelper.decodeToken(token);
+			payload = jwtHelper.decodeToken(token);
+			$window.sessionStorage.username = payload.sub;
+			$window.sessionStorage.role = payload.role;
 		},
 		delete: function() {
 			delete $window.sessionStorage.token;
-			delete $window.sessionStorage.tokenPayload;
+			delete $window.sessionStorage.username;
+			delete $window.sessionStorage.role;
 		},
 		getToken: function() {
 			return $window.sessionStorage.token;
 		},
-		getTokenPayload: function() {
-			return $window.sessionStorage.tokenPayload;
+		getUsername: function() {
+			return $window.sessionStorage.username;
 		}
 	};
 }])
