@@ -1,6 +1,6 @@
 angular.module("controllers", ["angular-jwt"])
 
-.controller("navCtrl", ["$scope", "$location", "$window", function($scope, $location, $window) {
+.controller("navCtrl", ["$scope", "$location", "tokenService", function($scope, $location, tokenService) {
 	$scope.getRoute = function() {
 		return $location.path();
 	};
@@ -8,13 +8,13 @@ angular.module("controllers", ["angular-jwt"])
 		$location.path(path);
 	}
 	$scope.logout = function() {
-		delete $window.sessionStorage.token;
+		tokenService.delete();
 		$scope.goto("/login");
 	};
 	$scope.$watch(function(scope) {
-		return $window.sessionStorage.token;
+		return tokenService.getToken();
 	}, function() {
-		$scope.userIsLoggedIn = $window.sessionStorage.token ? true : false;
+		$scope.userIsLoggedIn = tokenService.getToken() ? true : false;
 	});
 }])
 
@@ -31,6 +31,12 @@ angular.module("controllers", ["angular-jwt"])
 		delete: function() {
 			delete $window.sessionStorage.token;
 			delete $window.sessionStorage.tokenPayload;
+		},
+		getToken: function() {
+			return $window.sessionStorage.token;
+		},
+		getTokenPayload: function() {
+			return $window.sessionStorage.tokenPayload;
 		}
 	};
 }])

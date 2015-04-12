@@ -25,12 +25,13 @@ app.config(["$routeProvider", function($routeProvider) {
 		});
 }]);
 
-app.factory("authInterceptor", ["$window", function($window) {
+app.factory("authInterceptor", ["tokenService", function(tokenService) {
 	return {
 		request: function(config) {
+			var token = tokenService.getToken();
 			config.headers = config.headers || {};
-			if ($window.sessionStorage.token) {
-				config.headers.Authorization = $window.sessionStorage.token;
+			if (token) {
+				config.headers.Authorization = token;
 			}
 			return config;
 		}

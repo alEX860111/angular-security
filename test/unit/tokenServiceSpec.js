@@ -31,6 +31,8 @@ describe("tokenService", function() {
 		expect(jwtHelper.decodeToken).toHaveBeenCalledWith(token);
 		expect($window.sessionStorage.token).toEqual(token);
 		expect($window.sessionStorage.tokenPayload).toEqual(payload);
+		expect(tokenService.getToken()).toEqual(token);
+		expect(tokenService.getTokenPayload()).toEqual(payload);
 		tokenService.delete();
 		expect($window.sessionStorage.token).toBeUndefined();
 		expect($window.sessionStorage.tokenPayload).toBeUndefined();
