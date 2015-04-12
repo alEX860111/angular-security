@@ -6,6 +6,7 @@ module.exports = function(config) {
 		files: [
 			"app/bower_components/angular/angular.min.js",
 			"app/bower_components/angular-mocks/angular-mocks.js",
+			"app/bower_components/angular-jwt/dist/angular-jwt.min.js",
 			"app/js/**/*.js",
 			"test/unit/**/*.js"
 		],
