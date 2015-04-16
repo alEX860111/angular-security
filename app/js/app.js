@@ -17,6 +17,11 @@ app.config(["$routeProvider", function($routeProvider) {
 			controller: "productsCtrl",
 			resolve: resolve
 		})
+		.when("/users", {
+			templateUrl: "app/views/users.html",
+			controller: "usersCtrl",
+			resolve: resolve
+		})
 		.when("/home", {
 			templateUrl: "app/views/home.html",
 			resolve: resolve

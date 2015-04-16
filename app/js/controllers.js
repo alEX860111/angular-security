@@ -67,4 +67,22 @@ angular.module("controllers", ["angular-jwt"])
 				$scope.user.password = "";
 			});
 	};
+}])
+
+.controller("usersCtrl", ["$scope", "$http", function($scope, $http) {
+	$scope.users = [];
+
+	function updateUsers() {
+		$http.get("/rest-api/users").success(function(users) {
+			$scope.users = users;
+		});
+	}
+
+	updateUsers();
+
+	$scope.deleteUser = function(username) {
+		$http.delete("/rest-api/users/" + username).success(function() {
+			updateUsers();
+		});
+	};
 }]);
