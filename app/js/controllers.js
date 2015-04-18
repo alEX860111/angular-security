@@ -71,6 +71,12 @@ angular.module("controllers", ["angular-jwt"])
 
 .controller("usersCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.users = [];
+	$scope.newUser = {
+		username: "",
+		password: "",
+		role: "USER"
+	};
+	$scope.selectedUsername = "";
 
 	function updateUsers() {
 		$http.get("/rest-api/users").success(function(users) {
@@ -85,4 +91,20 @@ angular.module("controllers", ["angular-jwt"])
 			updateUsers();
 		});
 	};
+
+	$scope.createUser = function(user) {
+		$http.post("/rest-api/users", user).success(function() {
+			$scope.newUser = {
+				username: "",
+				password: "",
+				role: "USER"
+			};
+			updateUsers();
+		});
+	};
+
+	$scope.selectUser = function(username) {
+		$scope.selectedUsername = username;
+	};
+
 }]);
