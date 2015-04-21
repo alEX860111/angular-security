@@ -46,9 +46,10 @@ angular.module("controllers", ["authentication"])
 	};
 }])
 
-.controller("userCtrl", ["$scope", "$http", function($scope, $http) {
+.controller("userCtrl", ["$scope", "$http", "tokenService", function($scope, $http, tokenService) {
 	$scope.users = [];
 	$scope.selectedUsername = "";
+	$scope.loggedInUser = tokenService.getUsername();
 	$scope.newUser = {
 		username: "",
 		password: "",

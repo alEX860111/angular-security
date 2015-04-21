@@ -12,7 +12,7 @@
         <td>{{user.username}}</td>
         <td>{{user.role}}</td>
         <td>
-          <span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="modal" data-target="#deleteUser" ng-click="selectUser(user.username)"></span>
+          <button class="btn btn-danger" aria-hidden="true" data-toggle="modal" data-target="#deleteUser" ng-click="selectUser(user.username)" ng-disabled="loggedInUser === user.username"><span class="glyphicon glyphicon-trash"></span>&nbsp;Delete</button>
         </td>
       </tr>
     </table>

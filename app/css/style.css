@@ -5,3 +5,7 @@ body {
 .glyphicon {
   cursor: pointer;
 }
+
+td {
+  vertical-align: middle !important;
+}
