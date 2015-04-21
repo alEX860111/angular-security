@@ -13,7 +13,7 @@ describe("tokenService", function() {
 
 	beforeEach(function() {
 		module("angular-jwt");
-		module("controllers");
+		module("authentication");
 	});
 
 	beforeEach(inject(function(_jwtHelper_) {

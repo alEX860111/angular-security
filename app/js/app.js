@@ -1,6 +1,6 @@
-var app = angular.module("myapp", ["ngRoute", "controllers"]);
+angular.module("myapp", ["ngRoute", "controllers"])
 
-app.config(["$routeProvider", function($routeProvider) {
+.config(["$routeProvider", function($routeProvider) {
 	var resolve = {
 		authorize: ["$http", function($http) {
 			return $http.get("/rest-api/ping");
@@ -19,7 +19,7 @@ app.config(["$routeProvider", function($routeProvider) {
 		})
 		.when("/users", {
 			templateUrl: "app/views/users.html",
-			controller: "usersCtrl",
+			controller: "userCtrl",
 			resolve: resolve
 		})
 		.when("/home", {
@@ -28,26 +28,13 @@ app.config(["$routeProvider", function($routeProvider) {
 		}).otherwise({
 			redirectTo: "/home"
 		});
-}]);
+}])
 
-app.factory("authInterceptor", ["tokenService", function(tokenService) {
-	return {
-		request: function(config) {
-			var token = tokenService.getToken();
-			config.headers = config.headers || {};
-			if (token) {
-				config.headers.Authorization = token;
-			}
-			return config;
-		}
-	};
-}]);
-
-app.config(function($httpProvider) {
+.config(function($httpProvider) {
 	$httpProvider.interceptors.push("authInterceptor");
-});
+})
 
-app.run(["$rootScope", "$location", function($rootScope, $location) {
+.run(["$rootScope", "$location", function($rootScope, $location) {
 	$rootScope.$on("$routeChangeError", function(event, nextRoute, currentRoute) {
 		$rootScope.nextPath = nextRoute.$$route.originalPath;
 		$location.path("/login");

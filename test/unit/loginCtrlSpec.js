@@ -11,7 +11,6 @@ describe("loginCtrl", function() {
 		module("controllers");
 	});
 
-	// Mock the httpBackend.
 	beforeEach(inject(function(_$httpBackend_) {
 		$httpBackend = _$httpBackend_;
 	}));

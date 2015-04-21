@@ -1,4 +1,4 @@
-angular.module("controllers", ["angular-jwt"])
+angular.module("controllers", ["authentication"])
 
 .controller("navCtrl", ["$scope", "$location", "tokenService", function($scope, $location, tokenService) {
 	$scope.getRoute = function() {
@@ -21,29 +21,6 @@ angular.module("controllers", ["angular-jwt"])
 
 .controller("productsCtrl", ["$scope", function($scope) {
 	$scope.msg = "hello world";
-}])
-
-.factory("tokenService", ["$window", "jwtHelper", function($window, jwtHelper) {
-	return {
-		store: function(token) {
-			var payload;
-			$window.sessionStorage.token = token;
-			payload = jwtHelper.decodeToken(token);
-			$window.sessionStorage.username = payload.sub;
-			$window.sessionStorage.role = payload.role;
-		},
-		delete: function() {
-			delete $window.sessionStorage.token;
-			delete $window.sessionStorage.username;
-			delete $window.sessionStorage.role;
-		},
-		getToken: function() {
-			return $window.sessionStorage.token;
-		},
-		getUsername: function() {
-			return $window.sessionStorage.username;
-		}
-	};
 }])
 
 .controller("loginCtrl", ["$scope", "$rootScope", "$location", "$http", "tokenService", function($scope, $rootScope, $location, $http, tokenService) {
@@ -69,14 +46,14 @@ angular.module("controllers", ["angular-jwt"])
 	};
 }])
 
-.controller("usersCtrl", ["$scope", "$http", function($scope, $http) {
+.controller("userCtrl", ["$scope", "$http", function($scope, $http) {
 	$scope.users = [];
+	$scope.selectedUsername = "";
 	$scope.newUser = {
 		username: "",
 		password: "",
 		role: "USER"
 	};
-	$scope.selectedUsername = "";
 
 	function updateUsers() {
 		$http.get("/rest-api/users").success(function(users) {
@@ -92,8 +69,8 @@ angular.module("controllers", ["angular-jwt"])
 		});
 	};
 
-	$scope.createUser = function(user) {
-		$http.post("/rest-api/users", user).success(function() {
+	$scope.createUser = function() {
+		$http.post("/rest-api/users", $scope.newUser).success(function() {
 			$scope.newUser = {
 				username: "",
 				password: "",
