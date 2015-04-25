@@ -2,7 +2,7 @@ describe("loginCtrl", function() {
 
 	var $httpBackend;
 
-	var tokenService;
+	var authService;
 
 	var scope;
 
@@ -15,10 +15,10 @@ describe("loginCtrl", function() {
 		$httpBackend = _$httpBackend_;
 	}));
 
-	beforeEach(inject(function(_tokenService_) {
-		tokenService = _tokenService_;
-		spyOn(tokenService, "store");
-		spyOn(tokenService, "delete");
+	beforeEach(inject(function(_authService_) {
+		authService = _authService_;
+		spyOn(authService, "createSession");
+		spyOn(authService, "destroySession");
 	}));
 
 	beforeEach(inject(function($rootScope, $controller) {
@@ -48,7 +48,7 @@ describe("loginCtrl", function() {
 		scope.submit();
 		$httpBackend.expectPOST("/rest-api/token", scope.user).respond(200, data);
 		$httpBackend.flush();
-		expect(tokenService.store).toHaveBeenCalledWith(data.token);
+		expect(authService.createSession).toHaveBeenCalledWith(data.token);
 	});
 
 	it("should delete any token if submit is not successful", function() {
@@ -60,7 +60,7 @@ describe("loginCtrl", function() {
 		scope.submit();
 		$httpBackend.expectPOST("/rest-api/token", scope.user).respond(401, data);
 		$httpBackend.flush();
-		expect(tokenService.delete).toHaveBeenCalled();
+		expect(authService.destroySession).toHaveBeenCalled();
 		expect(scope.errorMessage).toEqual(data.message);
 		expect(scope.user.username).toEqual("");
 		expect(scope.user.password).toEqual("");

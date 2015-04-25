@@ -1,8 +1,8 @@
 angular.module("controllers")
-	.controller("userCtrl", ["$scope", "$http", "tokenService", function($scope, $http, tokenService) {
+	.controller("userCtrl", ["$scope", "$http", "authService", function($scope, $http, authService) {
 		$scope.users = [];
 		$scope.selectedUsername = "";
-		$scope.loggedInUser = tokenService.getUsername();
+		$scope.loggedInUser = authService.getSession().username;
 		$scope.newUser = {
 			username: "",
 			password: "",

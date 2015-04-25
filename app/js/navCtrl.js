@@ -1,5 +1,5 @@
 angular.module("controllers", ["authentication"])
-	.controller("navCtrl", ["$scope", "$location", "tokenService", function($scope, $location, tokenService) {
+	.controller("navCtrl", ["$scope", "$location", "authService", function($scope, $location, authService) {
 		$scope.getRoute = function() {
 			return $location.path();
 		};
@@ -7,14 +7,15 @@ angular.module("controllers", ["authentication"])
 			$location.path(path);
 		}
 		$scope.logout = function() {
-			tokenService.delete();
+			authService.destroySession();
 			$scope.goto("/login");
 		};
 		$scope.$watch(function(scope) {
-			return tokenService.getToken();
+			return authService.getSession().token;
 		}, function() {
-			$scope.userIsLoggedIn = tokenService.getToken() ? true : false;
-			$scope.username = tokenService.getUsername();
-			$scope.role = tokenService.getRole();
+			var session = authService.getSession();
+			$scope.userIsLoggedIn = session.token ? true : false;
+			$scope.username = session.username;
+			$scope.role = session.role;
 		});
 	}]);

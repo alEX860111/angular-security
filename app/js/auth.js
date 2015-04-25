@@ -1,8 +1,8 @@
 angular.module("authentication", ["angular-jwt"])
-	.factory("authInterceptor", ["tokenService", function(tokenService) {
+	.factory("authInterceptor", ["authService", function(authService) {
 		return {
 			request: function(config) {
-				var token = tokenService.getToken();
+				var token = authService.getSession().token;
 				config.headers = config.headers || {};
 				if (token) {
 					config.headers.Authorization = token;
@@ -11,28 +11,25 @@ angular.module("authentication", ["angular-jwt"])
 			}
 		};
 	}])
-	.factory("tokenService", ["$window", "jwtHelper", function($window, jwtHelper) {
+	.factory("authService", ["$window", "jwtHelper", function($window, jwtHelper) {
 		return {
-			store: function(token) {
-				var payload;
+			createSession: function(token) {
+				var payload = jwtHelper.decodeToken(token);
 				$window.sessionStorage.token = token;
-				payload = jwtHelper.decodeToken(token);
 				$window.sessionStorage.username = payload.sub;
 				$window.sessionStorage.role = payload.role;
 			},
-			delete: function() {
+			destroySession: function() {
 				delete $window.sessionStorage.token;
 				delete $window.sessionStorage.username;
 				delete $window.sessionStorage.role;
 			},
-			getToken: function() {
-				return $window.sessionStorage.token;
-			},
-			getUsername: function() {
-				return $window.sessionStorage.username;
-			},
-			getRole: function() {
-				return $window.sessionStorage.role;
+			getSession: function() {
+				return {
+					token: $window.sessionStorage.token,
+					username : $window.sessionStorage.username,
+					role: $window.sessionStorage.role
+				};
 			}
 		};
 	}]);
