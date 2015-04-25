@@ -3,12 +3,12 @@ angular.module("controllers", ["authentication"])
 		$scope.getRoute = function() {
 			return $location.path();
 		};
-		$scope.goto = function(path) {
+		$scope.changeRoute = function(path) {
 			$location.path(path);
 		}
 		$scope.logout = function() {
 			authService.destroySession();
-			$scope.goto("/login");
+			$scope.changeRoute("/login");
 		};
 		$scope.$watch(function(scope) {
 			return authService.getSession().token;

@@ -11,11 +11,11 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ng-class="{active: '/home' === getRoute()}"><a href="" ng-click="goto('/home')">Home</a>
+        <li ng-class="{active: '/home' === getRoute()}"><a href="" ng-click="changeRoute('/home')">Home</a>
         </li>
-        <li ng-class="{active: '/products' === getRoute()}"><a href="" ng-click="goto('/products')">Products</a>
+        <li ng-class="{active: '/products' === getRoute()}"><a href="" ng-click="changeRoute('/products')">Products</a>
         </li>
-        <li ng-class="{active: '/users' === getRoute()}"><a href="" ng-click="goto('/users')" ng-show="role === 'ADMIN'">Manage Users</a>
+        <li ng-class="{active: '/users' === getRoute()}"><a href="" ng-click="changeRoute('/users')" ng-show="role === 'ADMIN'">Manage Users</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
