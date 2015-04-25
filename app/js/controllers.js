@@ -55,6 +55,7 @@ angular.module("controllers", ["authentication"])
 		password: "",
 		role: "USER"
 	};
+	$scope.sort = "username";
 
 	function updateUsers() {
 		$http.get("/rest-api/users").success(function(users) {

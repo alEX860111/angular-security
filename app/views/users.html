@@ -3,11 +3,11 @@
     <table class="table table-hover">
       <tr>
         <th>#</th>
-        <th>username</th>
-        <th>role</th>
+        <th>username&nbsp;<span class="glyphicon sort" ng-class="{'glyphicon-triangle-top': sort === '-username', 'glyphicon-triangle-bottom': sort !== '-username', 'active': (sort === 'username' || sort === '-username')}" ng-click="sort = ((sort === 'username') ? '-username':'username');"></span></th>
+        <th>role&nbsp;<span class="glyphicon sort" ng-class="{'glyphicon-triangle-top': sort === '-role', 'glyphicon-triangle-bottom': sort !== '-role', 'active': (sort === 'role' || sort === '-role')}" ng-click="sort = ((sort === 'role') ? '-role':'role');"></span></th>
         <th></th>
       </tr>
-      <tr ng-repeat="user in users track by $index">
+      <tr ng-repeat="user in users | orderBy:sort">
         <td>{{$index + 1}}.</td>
         <td>{{user.username}}</td>
         <td>{{user.role}}</td>

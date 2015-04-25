@@ -9,3 +9,11 @@ body {
 td {
   vertical-align: middle !important;
 }
+
+.sort {
+  vertical-align: middle;
+}
+
+.active {
+  color: #4FA84F;
+}
