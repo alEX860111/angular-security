@@ -1,16 +1,4 @@
 angular.module("authentication", ["angular-jwt"])
-	.factory("authInterceptor", ["authService", function(authService) {
-		return {
-			request: function(config) {
-				var token = authService.getSession().token;
-				config.headers = config.headers || {};
-				if (token) {
-					config.headers.Authorization = token;
-				}
-				return config;
-			}
-		};
-	}])
 	.factory("authService", ["$window", "jwtHelper", function($window, jwtHelper) {
 		return {
 			createSession: function(token) {
@@ -27,9 +15,21 @@ angular.module("authentication", ["angular-jwt"])
 			getSession: function() {
 				return {
 					token: $window.sessionStorage.token,
-					username : $window.sessionStorage.username,
+					username: $window.sessionStorage.username,
 					role: $window.sessionStorage.role
 				};
+			}
+		};
+	}])
+	.factory("authInterceptor", ["authService", function(authService) {
+		return {
+			request: function(config) {
+				var token = authService.getSession().token;
+				if (token) {
+					config.headers = config.headers || {};
+					config.headers.Authorization = token;
+				}
+				return config;
 			}
 		};
 	}]);
