@@ -30,6 +30,9 @@ angular.module("authentication", ["angular-jwt"])
 			},
 			getUsername: function() {
 				return $window.sessionStorage.username;
+			},
+			getRole: function() {
+				return $window.sessionStorage.role;
 			}
 		};
 	}]);

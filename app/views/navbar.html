@@ -15,7 +15,7 @@
         </li>
         <li ng-class="{active: '/products' === getRoute()}"><a href="" ng-click="goto('/products')">Products</a>
         </li>
-        <li ng-class="{active: '/users' === getRoute()}"><a href="" ng-click="goto('/users')">Users</a>
+        <li ng-class="{active: '/users' === getRoute()}"><a href="" ng-click="goto('/users')" ng-show="role === 'ADMIN'">Manage Users</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

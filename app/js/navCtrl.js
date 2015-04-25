@@ -15,5 +15,6 @@ angular.module("controllers", ["authentication"])
 		}, function() {
 			$scope.userIsLoggedIn = tokenService.getToken() ? true : false;
 			$scope.username = tokenService.getUsername();
+			$scope.role = tokenService.getRole();
 		});
 	}]);
