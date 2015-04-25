@@ -14,7 +14,7 @@ angular.module("myapp", ["ngRoute", "controllers"])
 		})
 		.when("/products", {
 			templateUrl: "app/views/products.html",
-			controller: "productsCtrl",
+			controller: "productCtrl",
 			resolve: resolve
 		})
 		.when("/users", {
