@@ -24,6 +24,7 @@ angular.module("myapp", ["ngRoute", "controllers"])
 		})
 		.when("/home", {
 			templateUrl: "app/views/home.html",
+			controller: "homeCtrl",
 			resolve: resolve
 		}).otherwise({
 			redirectTo: "/home"

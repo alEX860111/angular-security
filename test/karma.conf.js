@@ -11,6 +11,7 @@ module.exports = function(config) {
 			"app/js/navCtrl.js",
 			"app/js/loginCtrl.js",
 			"app/js/userCtrl.js",
+			"app/js/homeCtrl.js",
 			"app/js/productCtrl.js",
 			"app/js/app.js",
 			"test/unit/**/*.js"

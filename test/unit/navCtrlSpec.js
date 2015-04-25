@@ -1,4 +1,4 @@
-describe("loginCtrl", function() {
+describe("navCtrl", function() {
 
 	var $location;
 
