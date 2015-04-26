@@ -4,6 +4,8 @@ describe("userCtrl", function() {
 
 	var $httpBackend;
 
+	var authService;
+
 	var scope;
 
 	beforeEach(function() {
@@ -19,6 +21,13 @@ describe("userCtrl", function() {
 
 	beforeEach(inject(function(_$httpBackend_) {
 		$httpBackend = _$httpBackend_;
+	}));
+
+	beforeEach(inject(function(_authService_) {
+		authService = _authService_;
+		spyOn(authService, "getSession").and.returnValue({
+			username: "joe"
+		});
 	}));
 
 	beforeEach(inject(function($rootScope, $controller) {
@@ -39,6 +48,11 @@ describe("userCtrl", function() {
 		$httpBackend.verifyNoOutstandingRequest();
 	});
 
+	it("should provider the username of the logged in user", function() {
+		expect(scope.loggedInUser).toEqual("joe");
+		expect(authService.getSession).toHaveBeenCalled();
+	});
+
 	it("should update the users after instantiation", function() {
 		expect(scope.users).toEqual(users);
 	});
@@ -49,47 +63,67 @@ describe("userCtrl", function() {
 		expect(scope.selectedUsername).toEqual("joe");
 	});
 
-	it("should update the users after successful delete", function() {
-		expect(scope.users).toEqual(users);
-		$httpBackend.expectDELETE("/rest-api/users/joe").respond(200);
-		$httpBackend.expectGET("/rest-api/users").respond(200, []);
-		scope.deleteUser("joe");
-		$httpBackend.flush();
-		expect(scope.users).toEqual([]);
+	it("should default the sort parameter to 'username'", function() {
+		expect(scope.sort).toEqual("username");
 	});
 
-	it("should not update the users after unsuccessful delete", function() {
-		expect(scope.users).toEqual(users);
-		$httpBackend.expectDELETE("/rest-api/users/joe").respond(400);
-		scope.deleteUser("joe");
-		$httpBackend.flush();
-		expect(scope.users).toEqual(users);
+	describe("delete", function() {
+		it("success should update the users", function() {
+			expect(scope.users).toEqual(users);
+			$httpBackend.expectDELETE("/rest-api/users/joe").respond(200);
+			$httpBackend.expectGET("/rest-api/users").respond(200, []);
+			scope.deleteUser("joe");
+			$httpBackend.flush();
+			expect(scope.users).toEqual([]);
+		});
+
+		it("error should not update the users", function() {
+			expect(scope.users).toEqual(users);
+			$httpBackend.expectDELETE("/rest-api/users/joe").respond(400);
+			scope.deleteUser("joe");
+			$httpBackend.flush();
+			expect(scope.users).toEqual(users);
+		});
 	});
 
-	it("should update the users after successful create", function() {
+	describe("create", function() {
 		var defaultNewUser = {
 			username: "",
 			password: "",
 			role: "USER"
 		};
-
-		expect(scope.newUser).toEqual(defaultNewUser);
-		scope.newUser = {
+		var newUser = {
 			username: "max",
 			password: "pw",
 			role: "USER"
 		};
-		$httpBackend.expectPOST("/rest-api/users", scope.newUser).respond(200);
-		users.push({
-			username: scope.newUser.username,
-			role: scope.newUser.role
-		});
-		$httpBackend.expectGET("/rest-api/users").respond(200, users);
-		scope.createUser();
-		$httpBackend.flush();
-		expect(scope.newUser).toEqual(defaultNewUser);
-		expect(scope.users).toEqual(users);
 
+		it("success should update the users", function() {
+			expect(scope.newUser).toEqual(defaultNewUser);
+			scope.newUser = newUser;
+			$httpBackend.expectPOST("/rest-api/users", scope.newUser).respond(200);
+			users.push({
+				username: scope.newUser.username,
+				role: scope.newUser.role
+			});
+			$httpBackend.expectGET("/rest-api/users").respond(200, users);
+			scope.createUser();
+			$httpBackend.flush();
+			expect(scope.newUser).toEqual(defaultNewUser);
+			expect(scope.users).toEqual(users);
+		});
+
+		it("error should provider an errorMessage", function() {
+			expect(scope.errorMessage).toEqual("");
+			scope.newUser = newUser;
+			$httpBackend.expectPOST("/rest-api/users", scope.newUser).respond(400, {
+				message: "Failure"
+			});
+			scope.createUser();
+			$httpBackend.flush();
+			expect(scope.newUser).toEqual(defaultNewUser);
+			expect(scope.errorMessage).toEqual("Failure");
+		});
 	});
 
 });

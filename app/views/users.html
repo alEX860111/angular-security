@@ -16,6 +16,7 @@
         </td>
       </tr>
     </table>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createUserModal" aria-hidden="true">Create user</button>
     <div id="deleteUser" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -33,7 +34,6 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createUserModal" aria-hidden="true">Create user</button>
     <div id="createUserModal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -66,6 +66,14 @@
           </form>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="alert alert-danger errorPanel" role="alert" ng-show="errorMessage">
+      <button type="button" class="close" ng-click="errorMessage=''"><span>&times;</span></button>
+      <h4>Error</h4>{{errorMessage}}
     </div>
   </div>
 </div>

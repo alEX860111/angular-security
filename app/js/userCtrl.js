@@ -1,14 +1,18 @@
 angular.module("controllers")
 	.controller("userCtrl", ["$scope", "$http", "authService", function($scope, $http, authService) {
+		$scope.loggedInUser = authService.getSession().username;
+		$scope.sort = "username";
 		$scope.users = [];
 		$scope.selectedUsername = "";
-		$scope.loggedInUser = authService.getSession().username;
-		$scope.newUser = {
-			username: "",
-			password: "",
-			role: "USER"
-		};
-		$scope.sort = "username";
+		$scope.errorMessage = "";
+
+		function resetNewUser() {
+			$scope.newUser = {
+				username: "",
+				password: "",
+				role: "USER"
+			};
+		}
 
 		function updateUsers() {
 			$http.get("/rest-api/users").success(function(users) {
@@ -16,6 +20,7 @@ angular.module("controllers")
 			});
 		}
 
+		resetNewUser();
 		updateUsers();
 
 		$scope.deleteUser = function(username) {
@@ -26,12 +31,11 @@ angular.module("controllers")
 
 		$scope.createUser = function() {
 			$http.post("/rest-api/users", $scope.newUser).success(function() {
-				$scope.newUser = {
-					username: "",
-					password: "",
-					role: "USER"
-				};
+				resetNewUser();
 				updateUsers();
+			}).error(function(data) {
+				resetNewUser();
+				$scope.errorMessage = data.message;
 			});
 		};
 

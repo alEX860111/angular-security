@@ -17,3 +17,7 @@ td {
 .active {
   color: #4FA84F;
 }
+
+.errorPanel {
+  margin-top: 20px;
+}
