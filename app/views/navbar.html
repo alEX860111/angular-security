@@ -11,11 +11,15 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ng-class="{active: '/home' === getRoute()}"><a href="" ng-click="changeRoute('/home')">Home</a>
+        <li ng-class="{active: '/home' === getRoute()}"><a href="" ng-click="changeRoute('/home')" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in">Home</a>
         </li>
-        <li ng-class="{active: '/products' === getRoute()}"><a href="" ng-click="changeRoute('/products')">Products</a>
+        <li ng-class="{active: '/products' === getRoute()}"><a href="" ng-click="changeRoute('/products')" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in">Products</a>
         </li>
-        <li ng-class="{active: '/users' === getRoute()}"><a href="" ng-click="changeRoute('/users')" ng-show="role === 'ADMIN'">Manage Users</a>
+        <li class="dropdown" ng-show="role === 'ADMIN'">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="" ng-click="changeRoute('/users')"  data-toggle="collapse" data-target="#bs-example-navbar-collapse-1.in">Users</a></li>
+          </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">

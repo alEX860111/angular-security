@@ -5,7 +5,7 @@ angular.module("controllers", ["authentication"])
 		};
 		$scope.changeRoute = function(path) {
 			$location.path(path);
-		}
+		};
 		$scope.logout = function() {
 			authService.destroySession();
 			$scope.changeRoute("/login");
