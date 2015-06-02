@@ -1,12 +1,6 @@
 angular.module("myapp", ["ngRoute", "controllers"])
 
 .config(["$routeProvider", function($routeProvider) {
-	var resolve = {
-		authorize: ["$http", function($http) {
-			return $http.get("/rest-api/ping");
-		}]
-	};
-
 	$routeProvider
 		.when("/login", {
 			templateUrl: "app/views/login.html",
@@ -15,17 +9,29 @@ angular.module("myapp", ["ngRoute", "controllers"])
 		.when("/products", {
 			templateUrl: "app/views/products.html",
 			controller: "productCtrl",
-			resolve: resolve
+			resolve: {
+				authorize: ["$http", function($http) {
+					return $http.get("/rest-api/ping/products");
+				}]
+			}
 		})
 		.when("/users", {
 			templateUrl: "app/views/users.html",
 			controller: "userCtrl",
-			resolve: resolve
+			resolve: {
+				authorize: ["$http", function($http) {
+					return $http.get("/rest-api/ping/users");
+				}]
+			}
 		})
 		.when("/home", {
 			templateUrl: "app/views/home.html",
 			controller: "homeCtrl",
-			resolve: resolve
+			resolve: {
+				authorize: ["$http", function($http) {
+					return $http.get("/rest-api/ping/home");
+				}]
+			}
 		}).otherwise({
 			redirectTo: "/home"
 		});
